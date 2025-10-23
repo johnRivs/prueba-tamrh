@@ -67,4 +67,21 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
         $this->assertNotNull(auth()->user()->remember_token);
     }
+
+    /** @test */
+    function an_authenticated_user_is_redirected_from_the_login_page()
+    {
+        $this->actingAs(User::factory()->create())
+            ->get(route('session.create'))
+            ->assertRedirect(route('dashboard'));
+    }
+
+    /** @test */
+    function a_guest_cannot_logout()
+    {
+        $this->withExceptionHandling();
+
+        $this->delete(route('session.destroy'))
+            ->assertRedirect(route('session.create'));
+    }
 }

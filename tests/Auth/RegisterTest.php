@@ -42,4 +42,12 @@ class RegisterTest extends TestCase
             ->call('register')
             ->assertHasErrors(['password' => 'min']);
     }
+
+    /** @test */
+    function an_authenticated_user_is_redirected_from_the_register_page()
+    {
+        $this->actingAs(User::factory()->create())
+            ->get(route('register'))
+            ->assertRedirect(route('dashboard'));
+    }
 }
