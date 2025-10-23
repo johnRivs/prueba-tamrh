@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">Sarch via Alpine.js</div>
                 <div class="card-body">
@@ -26,6 +26,25 @@
                             </ul>
                         </template>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Search via Livewire</div>
+                <div class="card-body">
+                    <input wire:model.live="search" placeholder="Search names..." class="form-control mb-3">
+
+                    @if (empty($this->filteredNames))
+                        <p class="text-muted">No results found.</p>
+                    @else
+                        <ul class="list-group">
+                            @foreach ($this->filteredNames as $name)
+                                <li class="list-group-item">{{ $name }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
         </div>
