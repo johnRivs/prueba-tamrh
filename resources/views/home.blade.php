@@ -6,7 +6,7 @@
                     <div class="alert alert-primary" role="alert">{{ session('status') }}</div>
                 @endif
 
-                asdf
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit at, nulla sunt aut, earum deserunt quo excepturi placeat labore delectus magni, explicabo cumque doloribus dignissimos libero pariatur sequi accusantium repellendus!
             </div>
         </div>
     </div>

@@ -1,15 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <div class="container-fluid">
         <a wire:navigate class="navbar-brand" href="/">TAM-RH</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                @guest
-                    <li class="nav-item"><a class="nav-link" wire:navigate href="{{ route('session.create') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" wire:navigate href="{{ route('register') }}">Register</a></li>
-                @else
+                @if (request()->routeIs('dashboard'))
                     <li class="dropdown" x-data="{ open: false }">
                         <button class="btn btn-secondary text-nowrap" type="button" @click="open = ! open">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="dropdown-icon">
@@ -28,7 +23,10 @@
                             </li>
                         </ul>
                     </li>
-                @endguest
+                @else
+                    <li class="nav-item"><a class="nav-link" wire:navigate href="{{ route('session.create') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" wire:navigate href="{{ route('register') }}">Register</a></li>
+                @endif
             </ul>
         </div>
     </div>

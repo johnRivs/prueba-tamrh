@@ -6,7 +6,7 @@ use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 
-Route::redirect('/', '/login');
+Route::view('/', 'home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', Register::class)->name('register');
