@@ -5,7 +5,7 @@ namespace Tests\Auth;
 use Tests\TestCase;
 use App\Models\User;
 
-class LoginTest extends TestCase
+class SessionTest extends TestCase
 {
     /** @test */
     function a_user_can_logout()
