@@ -8,3 +8,5 @@ Route::redirect('/', '/login');
 Route::get('/login', [SessionController::class, 'create'])->name('session.create');
 Route::post('/login', [SessionController::class, 'store'])->name('session.store');
 Route::delete('/logout', [SessionController::class, 'destroy'])->name('session.destroy');
+
+Route::middleware('auth')->get('/dashboard', function () {})->name('dashboard');

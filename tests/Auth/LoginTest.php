@@ -17,6 +17,15 @@ class LoginTest extends TestCase
     }
 
     /** @test */
+    function guests_are_redirected_to_login_when_accessing_dashboard()
+    {
+        $this->withExceptionHandling();
+
+        $this->get(route('dashboard'))
+            ->assertRedirect(route('session.create'));
+    }
+
+    /** @test */
     function a_user_can_login_with_valid_credentials()
     {
         $user = User::factory()->create(['email' => 'john@example.com']);
