@@ -12,7 +12,7 @@ class DashboardTest extends TestCase
     /** @test */
     function dashboard_access_depends_on_admin_status()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['name' => 'John']);
 
         $this->actingAs($user)
             ->get(route('dashboard'))
@@ -23,13 +23,14 @@ class DashboardTest extends TestCase
 
         $this->actingAs($user)
             ->get(route('dashboard'))
-            ->assertOk();
+            ->assertSee('John');
     }
 
     /** @test */
     function filtered_names_returns_all_names_when_search_is_empty()
     {
-        Livewire::test(Dashboard::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(Dashboard::class)
             ->assertSet('search', '')
             ->assertSee(['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
     }
@@ -37,7 +38,8 @@ class DashboardTest extends TestCase
     /** @test */
     function filtered_names_returns_only_matching_names_when_search_term_is_provided()
     {
-        Livewire::test(Dashboard::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(Dashboard::class)
             ->set('search', 'ohn')
             ->assertSee('John')
             ->assertDontSee(['Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
@@ -46,7 +48,8 @@ class DashboardTest extends TestCase
     /** @test */
     function filtered_names_returns_no_names_when_no_matching_search_term_is_provided()
     {
-        Livewire::test(Dashboard::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(Dashboard::class)
             ->set('search', 'xyz')
             ->assertSee('No results found.')
             ->assertDontSee(['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
@@ -55,7 +58,8 @@ class DashboardTest extends TestCase
     /** @test */
     function reset_search_method_resets_search_property_and_dispatches_event()
     {
-        Livewire::test(Dashboard::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(Dashboard::class)
             ->set('search', 'John')
             ->call('resetSearch')
             ->assertSet('search', '')

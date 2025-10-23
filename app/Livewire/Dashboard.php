@@ -2,13 +2,20 @@
 
 namespace App\Livewire;
 
+use Illuminate\Container\Attributes\CurrentUser;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
+    public string $username;
     public string $search = '';
     public array $names   = ['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura'];
+
+    function mount(#[CurrentUser] $user)
+    {
+        $this->username = $user->name;
+    }
 
     #[Computed]
     function filteredNames(): array

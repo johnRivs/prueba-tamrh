@@ -1,4 +1,6 @@
 <div class="container">
+    <h1 class="text-center mb-4">Welcome, {{ $username }}!</h1>
+
     <div x-data="{ visible: false, timeout: null }" x-init="@this.on('resetSearch', () => {
         clearTimeout(timeout);
 
