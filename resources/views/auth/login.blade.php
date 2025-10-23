@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="mt-3 text-center">
-                            Don't have an account? <a href="{{ route('register') }}">Register</a>
+                            Don't have an account? <a wire:navigate href="{{ route('register') }}">Register</a>
                         </div>
                     </div>
                 </div>
