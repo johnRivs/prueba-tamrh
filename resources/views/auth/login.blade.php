@@ -29,18 +29,22 @@
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="remember" name="remember" @checked(old('remember'))>
                                 <label class="form-check-label" for="remember">Remember me</label>
-                                @error('remember')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            <div class="mt-3">
-                                <a href="#">Forgot password?</a>
-                            </div>
-                            <div class="mt-2">
-                                <a href="#">Register</a>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
                             </div>
                         </form>
+
+                        <div class="mt-3 text-center">
+                            <a href="#">Forgot password?</a>
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            Don't have an account? <a href="{{ route('register') }}">Register</a>
+                        </div>
                     </div>
                 </div>
             </div>
