@@ -6,5 +6,5 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-
+    public array $names = ['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura'];
 }
