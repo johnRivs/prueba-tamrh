@@ -5,9 +5,27 @@ namespace Tests\Feature;
 use Livewire\Livewire;
 use Tests\TestCase;
 use App\Livewire\Dashboard;
+use App\Models\User;
 
 class DashboardTest extends TestCase
 {
+    /** @test */
+    function dashboard_access_depends_on_admin_status()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertRedirect('/')
+            ->assertSessionHas('status');
+
+        $user->update(['isAdmin' => true]);
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertOk();
+    }
+
     /** @test */
     function filtered_names_returns_all_names_when_search_is_empty()
     {
