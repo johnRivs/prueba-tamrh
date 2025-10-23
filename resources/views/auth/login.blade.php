@@ -19,6 +19,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
@@ -26,9 +27,17 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="remember" name="remember" @checked(old('remember'))>
                                 <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="g-recaptcha d-grid justify-content-center" data-sitekey="{{ config('services.recaptcha.siteKey') }}"></div>
+                                @error('g-recaptcha-response')
+                                    <div class="invalid-feedback d-block text-center">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="d-grid gap-2">

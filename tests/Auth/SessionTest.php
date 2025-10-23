@@ -4,6 +4,7 @@ namespace Tests\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 
 class SessionTest extends TestCase
 {
@@ -66,6 +67,34 @@ class SessionTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
         $this->assertNotNull(auth()->user()->remember_token);
+    }
+
+    /** @test */
+    function recaptcha_verification_for_login_works_as_expected()
+    {
+        $this->withExceptionHandling();
+
+        Http::fakeSequence()
+            ->push(['success' => false], 200)
+            ->push(['success' => true], 200);
+
+        $user = User::factory()->create(['email' => 'test@example.com']);
+
+        $this->post(route('session.store'), [
+            'email'                 => 'test@example.com',
+            'password'              => 'password',
+            'g-recaptcha-response'  => 'invalid',
+        ])->assertSessionHasErrors('g-recaptcha-response');
+
+        $this->assertGuest();
+
+        $this->post(route('session.store'), [
+            'email'                 => 'test@example.com',
+            'password'              => 'password',
+            'g-recaptcha-response'  => 'valid',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
     }
 
     /** @test */

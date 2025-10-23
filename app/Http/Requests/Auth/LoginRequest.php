@@ -22,9 +22,10 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => 'required|string|email|max:255',
-            'password' => 'required|string',
-            'remember' => 'sometimes|accepted'
+            'email'                => 'required|string|email|max:255',
+            'password'             => 'required|string',
+            'remember'             => 'sometimes|accepted',
+            'g-recaptcha-response' => 'required|string'
         ];
     }
 }
