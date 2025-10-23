@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Http;
 
 class SessionTest extends TestCase
 {
+    function setUp(): void
+    {
+        parent::setUp();
+
+        Http::fakeSequence('*recaptcha*')
+            ->push(['success' => true], 200)
+            ->push(['success' => false], 200);
+    }
     /** @test */
     function a_user_can_logout()
     {
@@ -32,8 +40,9 @@ class SessionTest extends TestCase
         $user = User::factory()->create(['email' => 'john@example.com']);
 
         $this->post(route('session.store'), [
-            'email'    => 'john@example.com',
-            'password' => 'password',
+            'email'                => 'john@example.com',
+            'password'             => 'password',
+            'g-recaptcha-response' => 'valid'
         ]);
 
         $this->assertAuthenticatedAs($user);
@@ -47,8 +56,9 @@ class SessionTest extends TestCase
         User::factory()->create(['email' => 'john@example.com']);
 
         $this->post(route('session.store'), [
-            'email'    => 'john@example.com',
-            'password' => 'wrong-password',
+            'email'                => 'john@example.com',
+            'password'             => 'wrong-password',
+            'g-recaptcha-response' => 'valid'
         ])->assertSessionHasErrors(['email']);
 
         $this->assertGuest();
@@ -60,9 +70,10 @@ class SessionTest extends TestCase
         $user = User::factory()->create(['email' => 'john@example.com']);
 
         $this->post(route('session.store'), [
-            'email'    => 'john@example.com',
-            'password' => 'password',
-            'remember' => 'on',
+            'email'                => 'john@example.com',
+            'password'             => 'password',
+            'remember'             => 'on',
+            'g-recaptcha-response' => 'valid'
         ]);
 
         $this->assertAuthenticatedAs($user);
@@ -74,19 +85,7 @@ class SessionTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        Http::fakeSequence()
-            ->push(['success' => false], 200)
-            ->push(['success' => true], 200);
-
         $user = User::factory()->create(['email' => 'test@example.com']);
-
-        $this->post(route('session.store'), [
-            'email'                 => 'test@example.com',
-            'password'              => 'password',
-            'g-recaptcha-response'  => 'invalid',
-        ])->assertSessionHasErrors('g-recaptcha-response');
-
-        $this->assertGuest();
 
         $this->post(route('session.store'), [
             'email'                 => 'test@example.com',
@@ -95,6 +94,16 @@ class SessionTest extends TestCase
         ]);
 
         $this->assertAuthenticatedAs($user);
+
+        auth()->logout();
+
+        $this->post(route('session.store'), [
+            'email'                 => 'test@example.com',
+            'password'              => 'password',
+            'g-recaptcha-response'  => 'invalid',
+        ])->assertSessionHasErrors('g-recaptcha-response');
+
+        $this->assertGuest();
     }
 
     /** @test */
