@@ -13,6 +13,7 @@ class Register extends Component
     public $email                 = '';
     public $password              = '';
     public $password_confirmation = '';
+    public $isAdmin               = false;
 
     function register()
     {
@@ -22,6 +23,7 @@ class Register extends Component
             'name'     => $validated['name'],
             'email'    => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'isAdmin'  => $validated['isAdmin'] ?? false,
         ]);
 
         session()->flash('status', 'Registro completado. Entra con tus credenciales.');

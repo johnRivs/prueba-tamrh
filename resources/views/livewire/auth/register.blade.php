@@ -34,6 +34,11 @@
                             <input type="password" id="password_confirmation" wire:model="password_confirmation" class="form-control">
                         </div>
 
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" id="isAdmin" wire:model="isAdmin" class="form-check-input">
+                            <label for="isAdmin" class="form-check-label">Is Admin?</label>
+                        </div>
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
                                 <span wire:loading class="spinner-border spinner-border-sm" aria-hidden="true"></span>
