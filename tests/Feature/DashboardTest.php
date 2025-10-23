@@ -13,7 +13,7 @@ class DashboardTest extends TestCase
     {
         Livewire::test(Dashboard::class)
             ->assertSet('search', '')
-            ->assertSee(['John','Jane','Peter','Mary','Robert','Laura']);
+            ->assertSee(['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
     }
 
     /** @test */
@@ -22,7 +22,7 @@ class DashboardTest extends TestCase
         Livewire::test(Dashboard::class)
             ->set('search', 'ohn')
             ->assertSee('John')
-            ->assertDontSee(['Jane','Peter','Mary','Robert','Laura']);
+            ->assertDontSee(['Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
     }
 
     /** @test */
@@ -31,6 +31,17 @@ class DashboardTest extends TestCase
         Livewire::test(Dashboard::class)
             ->set('search', 'xyz')
             ->assertSee('No results found.')
-            ->assertDontSee(['John','Jane','Peter','Mary','Robert','Laura']);
+            ->assertDontSee(['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
+    }
+
+    /** @test */
+    function reset_search_method_resets_search_property_and_dispatches_event()
+    {
+        Livewire::test(Dashboard::class)
+            ->set('search', 'John')
+            ->call('resetSearch')
+            ->assertSet('search', '')
+            ->assertDispatched('resetSearch')
+            ->assertSee(['John', 'Jane', 'Peter', 'Mary', 'Robert', 'Laura']);
     }
 }

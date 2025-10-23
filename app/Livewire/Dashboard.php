@@ -17,4 +17,11 @@ class Dashboard extends Component
             ? collect($this->names)->filter(fn ($name) => str_contains(strtolower($name), strtolower($this->search)))->all()
             : $this->names;
     }
+
+    function resetSearch()
+    {
+        $this->search = '';
+
+        $this->dispatch('resetSearch');
+    }
 }

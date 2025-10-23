@@ -1,4 +1,19 @@
 <div class="container">
+    <div x-data="{ visible: false, timeout: null }" x-init="@this.on('resetSearch', () => {
+        clearTimeout(timeout);
+
+        visible = true;
+        timeout = setTimeout(() => visible = false, 2500);
+    })" x-show="visible" style="display: none;" class="alert alert-secondary" role="alert">
+        Search has been reset!
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="text-center mb-3">
+            <button @click="$wire.resetSearch()" class="btn btn-secondary">Reset All Search</button>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
@@ -11,7 +26,8 @@
                                 ? $wire.names.filter(i => i.toLowerCase().includes(this.search.toLowerCase()))
                                 : $wire.names;
                         }
-                    }">
+                    }"
+                    x-init="@this.on('resetSearch', () => search = '')">
                         <input x-model="search" placeholder="Search names..." class="form-control mb-3">
 
                         <template x-if="filteredNames.length === 0">
