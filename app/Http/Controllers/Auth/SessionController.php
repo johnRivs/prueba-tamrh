@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Logout;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -26,12 +27,9 @@ class SessionController extends Controller
         return redirect()->route('dashboard');
     }
 
-    function destroy()
+    function destroy(Logout $action)
     {
-        Auth::logout();
-
-        Session::invalidate();
-        Session::regenerateToken();
+        $action->handle();
 
         return redirect('/');
     }
