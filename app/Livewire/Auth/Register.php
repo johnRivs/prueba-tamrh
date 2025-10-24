@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Auth;
 
-use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Illuminate\Support\Sleep;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class Register extends Component
 {
@@ -28,7 +29,7 @@ class Register extends Component
 
         session()->flash('status', 'Registro completado. Entra con tus credenciales.');
 
-        sleep(2);
+        Sleep::for(2)->seconds();
 
         return $this->redirectRoute('session.create', navigate: true);
     }

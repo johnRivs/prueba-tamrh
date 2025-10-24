@@ -16,6 +16,7 @@ class SessionTest extends TestCase
             ->push(['success' => true], 200)
             ->push(['success' => false], 200);
     }
+
     /** @test */
     function a_user_can_logout()
     {

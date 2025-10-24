@@ -3,12 +3,20 @@
 namespace Tests\Auth;
 
 use Tests\TestCase;
-use Livewire\Livewire;
-use App\Livewire\Auth\Register;
 use App\Models\User;
+use Livewire\Livewire;
+use Illuminate\Support\Sleep;
+use App\Livewire\Auth\Register;
 
 class RegisterTest extends TestCase
 {
+    function setUp(): void
+    {
+        parent::setUp();
+
+        Sleep::fake();
+    }
+
     /** @test */
     function users_can_register()
     {
